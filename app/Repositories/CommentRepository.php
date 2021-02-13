@@ -2,14 +2,15 @@
 
 
 namespace App\Repositories;
-use App\Http\Controllers\NewsController;
-use App\Models\News;
+use App\Http\Controllers\CommentController;
+use App\Models\Comments;
+use http\Cookie;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Void_;
 
-class NewsRepository extends BaseRepository {
+class CommentRepository extends BaseRepository {
     /**
      * @var Model
      */
@@ -20,18 +21,29 @@ class NewsRepository extends BaseRepository {
      */
     protected function getModelClass()
     {
-        return 'App\Models\News';
+        return 'App\Models\Comments';
     }
 
+    /**
+     * @param $data
+     * @return mixed
+     */
+
     public function create($data){
-        return News::create([
-            'head' => $data['head'],
+        return Comments::create([
+            'news_id' => $data['news_id'],
             'text' => $data['text'],
             'author' => $data['author'],
-            'tags' => $data['tags'],
         ]);
     }
 
+    public function get($news_id){
+        return $this->startCondition()
+            ->query()
+            ->where('news_id', $news_id)
+            ->get();
+    }
+    /*
     public function update($id, $data){
         return $this->startCondition()
             ->query()
@@ -42,20 +54,6 @@ class NewsRepository extends BaseRepository {
                 'author' => $data['author'],
                 'tags' => $data['tags'],
             ]);
-    }
-
-    public function get($id){
-        $news = $this->startCondition()
-            ->query()
-            ->where('id', $id)
-            ->get();
-        $comments = DB::table('comments')
-            ->where('news_id', $id)
-            ->get();
-        return [
-            'news' => $news,
-            'comments' => $comments
-            ];
-    }
+    }*/
 
 }

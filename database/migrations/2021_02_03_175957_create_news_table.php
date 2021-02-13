@@ -18,7 +18,7 @@ class CreateNewsTable extends Migration
             $table->string('head');
             $table->text('text');
             $table->string('author');
-            $table->unsignedbigInteger('tags');
+            $table->unsignedbigInteger('tags')->nullable();
             $table->foreign('tags')->references('id')->on('tags');
             $table->timestamps();
         });

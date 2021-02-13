@@ -17,7 +17,7 @@ class CreateCommentsTable extends Migration
             $table->id();
             $table->unsignedbigInteger('news_id');
             $table->foreign('news_id')->references('id')->on('news');
-            $table->string('name');
+            $table->string('author');
             $table->text('text');
             $table->timestamps();
         });
